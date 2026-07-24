@@ -1,5 +1,8 @@
 package com.locallens.enums;
 
-public class UserRole {
+public enum UserRole {
 
+     ADMIN,
+     TRAVELLER,
+     LOCAL_GUIDE
 }

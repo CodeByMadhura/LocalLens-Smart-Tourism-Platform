@@ -1,9 +1,9 @@
 package com.locallens.enums;
 
-public enum VerificationStatus {
-
-	NOT_SUBMITTED,
+public enum ApprovalStatus {
+	
 	PENDING,
 	APPROVED,
 	REJECTED
+
 }
