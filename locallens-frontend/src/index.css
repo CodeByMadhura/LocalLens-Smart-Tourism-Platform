@@ -1,10 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600;1,700&display=swap');
+
+:root {
+  --primary-green: #1d6d4a;
+  --primary-green-hover: #155036;
+  --dark-green: #0c2d1c;
+  --dark-green-hover: #081e13;
+  --light-green-bg: #f3faf6;
+  --accent-gold: #dfb05b;
+  --text-dark: #111d15;
+  --text-medium: #344054;
+  --text-muted: #667085;
+  --border-color: #d0d5dd;
+  --white: #ffffff;
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  background-color: #f4f4f4;
+  background-color: var(--light-green-bg);
+  color: var(--text-dark);
+  line-height: 1.5;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+}
+
+input, select {
+  font-family: var(--font-family);
+}
