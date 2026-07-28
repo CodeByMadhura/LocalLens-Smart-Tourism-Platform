@@ -24,8 +24,8 @@ public class JwtService {
     private final long jwtExpiration;
 
     public JwtService(
-            @Value("${jwt.secret}") String secret,
-            @Value("${jwt.expiration}") long jwtExpiration
+            @Value("${jwt.secret:ThisIsMyVerySecretKeyForJWTAuthentication123456789}") String secret,
+            @Value("${jwt.expiration:86400000}") long jwtExpiration
     ) {
         if (secret == null || secret.length() < 32) {
             throw new IllegalArgumentException(

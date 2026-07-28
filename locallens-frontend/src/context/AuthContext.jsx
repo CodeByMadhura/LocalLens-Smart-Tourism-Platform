@@ -52,8 +52,11 @@ export function AuthProvider({ children }) {
   // Helper: is user a traveller?
   const isTraveller = currentUser?.role === "TRAVELLER";
 
+  // Helper: is user an admin?
+  const isAdmin = currentUser?.role === "ADMIN";
+
   return (
-    <AuthContext.Provider value={{ currentUser, authToken, isLoggedIn, isLocalGuide, isTraveller, login, logout, loading }}>
+    <AuthContext.Provider value={{ currentUser, authToken, isLoggedIn, isLocalGuide, isTraveller, isAdmin, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

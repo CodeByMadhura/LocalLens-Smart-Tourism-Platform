@@ -92,7 +92,9 @@ function Login() {
       login(userData, data.token);
 
       // Redirect based on role
-      if (data.role === "LOCAL_GUIDE") {
+      if (data.role === "ADMIN") {
+        navigate("/admin-dashboard", { replace: true });
+      } else if (data.role === "LOCAL_GUIDE") {
         navigate("/guide-dashboard", { replace: true });
       } else {
         navigate("/", { replace: true });

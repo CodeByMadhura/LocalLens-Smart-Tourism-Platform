@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import {
-  LayoutDashboard, User, MapPin, PlusCircle, Clock,
-  Star, Heart, Settings, LogOut, Menu, X, ChevronRight
+  LayoutDashboard, User, MapPin, PlusCircle,
+  Star, LogOut, Menu, X, ChevronRight
 } from "lucide-react";
 
 function GuideDashboardLayout() {
@@ -21,10 +21,7 @@ function GuideDashboardLayout() {
     { path: "/guide-dashboard/profile", label: "My Profile", icon: <User size={20} /> },
     { path: "/guide-dashboard/places", label: "My Places", icon: <MapPin size={20} /> },
     { path: "/guide-dashboard/add-place", label: "Add New Place", icon: <PlusCircle size={20} /> },
-    { path: "/guide-dashboard/history", label: "Place History", icon: <Clock size={20} /> },
     { path: "/guide-dashboard/reviews", label: "Ratings & Reviews", icon: <Star size={20} /> },
-    { path: "/guide-dashboard/saved", label: "Saved Places", icon: <Heart size={20} /> },
-    { path: "/guide-dashboard/settings", label: "Settings", icon: <Settings size={20} /> },
   ];
 
   const sidebarStyle = {

@@ -13,10 +13,18 @@ import GuideDashboardHome from "./pages/guide-dashboard/GuideDashboardHome";
 import GuideProfile from "./pages/guide-dashboard/GuideProfile";
 import GuidePlaces from "./pages/guide-dashboard/GuidePlaces";
 import GuideAddPlace from "./pages/guide-dashboard/GuideAddPlace";
-import GuidePlaceHistory from "./pages/guide-dashboard/GuidePlaceHistory";
 import GuideReviews from "./pages/guide-dashboard/GuideReviews";
 import GuideSavedPlaces from "./pages/guide-dashboard/GuideSavedPlaces";
-import GuideSettings from "./pages/guide-dashboard/GuideSettings";
+
+// Admin Dashboard pages
+import AdminDashboardLayout from "./pages/admin-dashboard/AdminDashboardLayout";
+import AdminDashboardHome from "./pages/admin-dashboard/AdminDashboardHome";
+import AdminPlaceApproval from "./pages/admin-dashboard/AdminPlaceApproval";
+import AdminTravellers from "./pages/admin-dashboard/AdminTravellers";
+import AdminLocalGuides from "./pages/admin-dashboard/AdminLocalGuides";
+import AdminReportedGuides from "./pages/admin-dashboard/AdminReportedGuides";
+import AdminAnalytics from "./pages/admin-dashboard/AdminAnalytics";
+import AdminActiveUsers from "./pages/admin-dashboard/AdminActiveUsers";
 
 // ProtectedGuideRoute: only LOCAL_GUIDE users can access the dashboard
 function ProtectedGuideRoute({ children }) {
@@ -46,10 +54,36 @@ function ProtectedGuideRoute({ children }) {
   return children;
 }
 
+// ProtectedAdminRoute: only ADMIN users can access the admin dashboard
+function ProtectedAdminRoute({ children }) {
+  const { isLoggedIn, isAdmin, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", backgroundColor: "var(--light-green-bg)" }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ width: "40px", height: "40px", border: "3px solid var(--primary-green)", borderTop: "3px solid transparent", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 16px" }}></div>
+          <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}
+
 // Main app content that has access to router hooks
 function AppContent() {
   const location = useLocation();
-  const isDashboard = location.pathname.startsWith("/guide-dashboard");
+  const isDashboard = location.pathname.startsWith("/guide-dashboard") || location.pathname.startsWith("/admin-dashboard");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -153,10 +187,23 @@ function AppContent() {
             <Route path="profile" element={<GuideProfile />} />
             <Route path="places" element={<GuidePlaces />} />
             <Route path="add-place" element={<GuideAddPlace />} />
-            <Route path="history" element={<GuidePlaceHistory />} />
             <Route path="reviews" element={<GuideReviews />} />
             <Route path="saved" element={<GuideSavedPlaces />} />
-            <Route path="settings" element={<GuideSettings />} />
+          </Route>
+
+          {/* Protected Admin Dashboard Routes */}
+          <Route path="/admin-dashboard" element={
+            <ProtectedAdminRoute>
+              <AdminDashboardLayout />
+            </ProtectedAdminRoute>
+          }>
+            <Route index element={<AdminDashboardHome />} />
+            <Route path="place-approval" element={<AdminPlaceApproval />} />
+            <Route path="travellers" element={<AdminTravellers />} />
+            <Route path="local-guides" element={<AdminLocalGuides />} />
+            <Route path="reported-guides" element={<AdminReportedGuides />} />
+            <Route path="analytics" element={<AdminAnalytics />} />
+            <Route path="active-users" element={<AdminActiveUsers />} />
           </Route>
 
           {/* 404 Fallback */}
