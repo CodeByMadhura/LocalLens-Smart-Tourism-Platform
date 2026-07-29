@@ -4,6 +4,6 @@ public enum VerificationStatus {
 
 	NOT_SUBMITTED,
 	PENDING,
-	APPROVED,
+	VERIFIED,
 	REJECTED
 }
