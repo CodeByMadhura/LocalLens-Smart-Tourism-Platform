@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,52 +18,86 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TravellerPreferenceRequest {
 
+    /*
+     * Examples:
+     * Solo, Couple, Family, Friends, Business, Adventure
+     */
     @Builder.Default
-    private List<String> interests = new ArrayList<>();
+    private List<String> travelStyles =
+            new ArrayList<>();
 
-    @Size(
-        max = 50,
-        message = "Travel style cannot exceed 50 characters"
-    )
-    private String travelStyle;
+    /*
+     * Examples:
+     * Budget, Standard, Luxury
+     */
+    @Builder.Default
+    private List<String> budgetPreference =
+            new ArrayList<>();
 
-    @Size(
-        max = 50,
-        message = "Preferred travel type cannot exceed 50 characters"
-    )
-    private String preferredTravelType;
+    /*
+     * Examples:
+     * Bike, Car, Train, Bus, Flight, Walking
+     */
+    @Builder.Default
+    private List<String> preferredTransportation =
+            new ArrayList<>();
+
+    /*
+     * Examples:
+     * Hotel, Hostel, Resort, Camping, Homestay
+     */
+    @Builder.Default
+    private List<String> preferredAccommodations =
+            new ArrayList<>();
+
+    /*
+     * Examples:
+     * Nature, Beach, Adventure, Historical, Food
+     */
+    @Builder.Default
+    private List<String> favouriteCategories =
+            new ArrayList<>();
+
+    /*
+     * Preferred languages while travelling.
+     */
+    @Builder.Default
+    private List<String> preferredLanguages =
+            new ArrayList<>();
+
+    /*
+     * Examples:
+     * Weekend, 3 Days, 5 Days, 1 Week, Custom
+     */
+    @Builder.Default
+    private List<String> preferredTripDurations =
+            new ArrayList<>();
 
     @DecimalMin(
         value = "0.0",
         inclusive = true,
-        message = "Minimum budget cannot be negative"
+        message = "Maximum daily distance cannot be negative"
     )
-    private BigDecimal minimumBudget;
+    private BigDecimal maxDailyDistance;
 
     @DecimalMin(
         value = "0.0",
         inclusive = true,
         message = "Maximum budget cannot be negative"
     )
-    private BigDecimal maximumBudget;
+    private BigDecimal maxBudget;
 
-    @Size(
-        max = 50,
-        message = "Budget preference cannot exceed 50 characters"
-    )
-    private String budgetPreference;
+    /*
+     * Optional additional preferences.
+     */
 
     @Builder.Default
-    private List<String> preferredLanguages = new ArrayList<>();
+    private List<String> dietaryPreferences =
+            new ArrayList<>();
 
     @Builder.Default
-    private List<String> dietaryPreferences = new ArrayList<>();
-
-    @Builder.Default
-    private List<String> accessibilityRequirements = new ArrayList<>();
-
-    @Builder.Default
-    private List<String> preferredCategories = new ArrayList<>();
+    private List<String> accessibilityRequirements =
+            new ArrayList<>();
 
     private Boolean prefersHiddenGems;
 

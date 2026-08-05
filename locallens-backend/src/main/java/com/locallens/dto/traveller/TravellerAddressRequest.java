@@ -2,8 +2,6 @@ package com.locallens.dto.traveller;
 
 import com.locallens.enums.AddressType;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +16,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TravellerAddressRequest {
 
-    @NotBlank(message = "Address line 1 is required")
     @Size(
         max = 150,
         message = "Address line 1 cannot exceed 150 characters"
@@ -43,14 +40,12 @@ public class TravellerAddressRequest {
     )
     private String area;
 
-    @NotBlank(message = "City is required")
     @Size(
         max = 100,
         message = "City cannot exceed 100 characters"
     )
     private String city;
 
-    @NotBlank(message = "State is required")
     @Size(
         max = 100,
         message = "State cannot exceed 100 characters"
@@ -63,8 +58,14 @@ public class TravellerAddressRequest {
     )
     private String zipCode;
 
-    @NotNull(message = "Address type is required")
+    /*
+     * This is optional because the service explicitly supplies
+     * PERMANENT or CURRENT while saving the address.
+     */
     private AddressType addressType;
 
+    /*
+     * Retained for compatibility with older profile requests.
+     */
     private boolean current;
 }

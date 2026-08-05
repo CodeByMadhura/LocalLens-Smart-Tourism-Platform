@@ -1,6 +1,5 @@
 package com.locallens.dto.traveller;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,10 +23,14 @@ import lombok.Setter;
 public class TravellerProfileResponse {
 
     /*
-     * User information.
+     * ---------------------------------------------------------
+     * User information
+     * ---------------------------------------------------------
      */
 
     private Long userId;
+
+    private Long travellerProfileId;
 
     private String firstName;
 
@@ -56,14 +59,67 @@ public class TravellerProfileResponse {
     private VerificationStatus verificationStatus;
 
     /*
-     * TravellerProfile information.
+     * ---------------------------------------------------------
+     * Traveller profile information
+     * ---------------------------------------------------------
      */
 
-    private Long travellerProfileId;
+    /*
+     * Database field may be named bio, but frontend reads
+     * aboutMe first and also supports bio as a fallback.
+     */
+    private String aboutMe;
 
     private String bio;
 
     private String occupation;
+
+    private String profileImageUrl;
+
+    @Builder.Default
+    private List<String> languagesSpoken =
+            new ArrayList<>();
+
+    @Builder.Default
+    private List<String> accessibilityPreferences =
+            new ArrayList<>();
+
+    /*
+     * ---------------------------------------------------------
+     * Address information
+     * ---------------------------------------------------------
+     */
+
+    private Boolean sameAddress;
+
+    private TravellerAddressResponse permanentAddress;
+
+    private TravellerAddressResponse currentAddress;
+
+    /*
+     * Legacy address field.
+     *
+     * It can contain the current address for compatibility with
+     * older frontend files.
+     */
+    private TravellerAddressResponse address;
+
+    /*
+     * ---------------------------------------------------------
+     * Travel preferences
+     * ---------------------------------------------------------
+     */
+
+    private TravellerPreferenceRequest travelPreferences;
+
+    /*
+     * ---------------------------------------------------------
+     * Legacy profile fields
+     * ---------------------------------------------------------
+     *
+     * These can remain temporarily if other dashboard files use
+     * the older flat response structure.
+     */
 
     private String travelStyle;
 
@@ -75,7 +131,7 @@ public class TravellerProfileResponse {
 
     private String country;
 
-    private BigDecimal preferredBudget;
+    private java.math.BigDecimal preferredBudget;
 
     private String preferredTravelType;
 
@@ -83,19 +139,15 @@ public class TravellerProfileResponse {
 
     private String emergencyContactNumber;
 
-    private String profileImageUrl;
-
     @Builder.Default
-    private List<String> interests = new ArrayList<>();
-
-    @Builder.Default
-    private List<String> languagesSpoken = new ArrayList<>();
-
-    @Builder.Default
-    private List<String> accessibilityPreferences =
+    private List<String> interests =
             new ArrayList<>();
 
-    private TravellerAddressResponse address;
+    /*
+     * ---------------------------------------------------------
+     * Audit information
+     * ---------------------------------------------------------
+     */
 
     private LocalDateTime createdAt;
 
