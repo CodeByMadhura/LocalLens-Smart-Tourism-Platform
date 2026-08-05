@@ -1,6 +1,5 @@
 package com.locallens.dto.traveller;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.List;
 import com.locallens.enums.GenderType;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -26,7 +24,9 @@ import lombok.Setter;
 public class UpdateTravellerProfileRequest {
 
     /*
-     * Fields belonging to the User entity.
+     * ---------------------------------------------------------
+     * User information
+     * ---------------------------------------------------------
      */
 
     @Size(
@@ -41,9 +41,16 @@ public class UpdateTravellerProfileRequest {
     )
     private String lastName;
 
+    /*
+     * Allows:
+     * 9876543210
+     * +919876543210
+     * +91 98765 43210
+     * 98765-43210
+     */
     @Pattern(
-        regexp = "^[0-9]{10,15}$",
-        message = "Phone number must contain 10 to 15 digits"
+        regexp = "^$|^[0-9+()\\-\\s]{7,20}$",
+        message = "Please enter a valid phone number"
     )
     private String phoneNumber;
 
@@ -53,14 +60,10 @@ public class UpdateTravellerProfileRequest {
     private LocalDate dateOfBirth;
 
     /*
-     * Fields belonging to TravellerProfile.
+     * ---------------------------------------------------------
+     * Traveller profile information
+     * ---------------------------------------------------------
      */
-
-    @Size(
-        max = 2000,
-        message = "Bio cannot exceed 2000 characters"
-    )
-    private String bio;
 
     @Size(
         max = 150,
@@ -68,48 +71,49 @@ public class UpdateTravellerProfileRequest {
     )
     private String occupation;
 
+    /*
+     * Frontend sends aboutMe.
+     *
+     * This value should be stored in TravellerProfile.bio.
+     */
     @Size(
-        max = 100,
-        message = "Travel style cannot exceed 100 characters"
+        max = 2000,
+        message = "About me cannot exceed 2000 characters"
     )
-    private String travelStyle;
+    private String aboutMe;
 
-    @Size(
-        max = 100,
-        message = "Preferred language cannot exceed 100 characters"
-    )
-    private String preferredLanguage;
+    @Builder.Default
+    private List<String> languagesSpoken =
+            new ArrayList<>();
 
-    @Size(
-        max = 100,
-        message = "Home city cannot exceed 100 characters"
-    )
-    private String homeCity;
+    /*
+     * ---------------------------------------------------------
+     * Address information
+     * ---------------------------------------------------------
+     */
 
-    @Size(
-        max = 100,
-        message = "Home state cannot exceed 100 characters"
-    )
-    private String homeState;
+    private Boolean sameAddress;
 
-    @Size(
-        max = 100,
-        message = "Country cannot exceed 100 characters"
-    )
-    private String country;
+    @Valid
+    private TravellerAddressRequest permanentAddress;
 
-    @DecimalMin(
-        value = "0.0",
-        inclusive = true,
-        message = "Preferred budget cannot be negative"
-    )
-    private BigDecimal preferredBudget;
+    @Valid
+    private TravellerAddressRequest currentAddress;
 
-    @Size(
-        max = 50,
-        message = "Preferred travel type cannot exceed 50 characters"
-    )
-    private String preferredTravelType;
+    /*
+     * ---------------------------------------------------------
+     * Travel preferences
+     * ---------------------------------------------------------
+     */
+
+    @Valid
+    private TravellerPreferenceRequest travelPreferences;
+
+    /*
+     * ---------------------------------------------------------
+     * Optional fields
+     * ---------------------------------------------------------
+     */
 
     @Size(
         max = 150,
@@ -118,8 +122,8 @@ public class UpdateTravellerProfileRequest {
     private String emergencyContactName;
 
     @Pattern(
-        regexp = "^$|^[0-9]{10,15}$",
-        message = "Emergency contact number must contain 10 to 15 digits"
+        regexp = "^$|^[0-9+()\\-\\s]{7,20}$",
+        message = "Please enter a valid emergency contact number"
     )
     private String emergencyContactNumber;
 
@@ -130,15 +134,50 @@ public class UpdateTravellerProfileRequest {
     private String profileImageUrl;
 
     @Builder.Default
-    private List<String> interests = new ArrayList<>();
-
-    @Builder.Default
-    private List<String> languagesSpoken = new ArrayList<>();
-
-    @Builder.Default
     private List<String> accessibilityPreferences =
             new ArrayList<>();
 
-    @Valid
+    /*
+     * ---------------------------------------------------------
+     * Backward-compatible fields
+     * ---------------------------------------------------------
+     *
+     * These fields can be temporarily retained if another old
+     * frontend component or API request still uses them.
+     *
+     * The new TravellerProfile page should use:
+     *
+     * aboutMe
+     * permanentAddress
+     * currentAddress
+     * travelPreferences
+     */
+
+    @Deprecated
+    private String bio;
+
+    @Deprecated
     private TravellerAddressRequest address;
+
+    @Deprecated
+    private String travelStyle;
+
+    @Deprecated
+    private String preferredLanguage;
+
+    @Deprecated
+    private String preferredTravelType;
+
+    @Deprecated
+    private String homeCity;
+
+    @Deprecated
+    private String homeState;
+
+    @Deprecated
+    private String country;
+
+    @Builder.Default
+    @Deprecated
+    private List<String> interests = new ArrayList<>();
 }
